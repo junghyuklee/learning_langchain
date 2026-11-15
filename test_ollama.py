@@ -8,15 +8,20 @@
 """
 
 from langchain_ollama import ChatOllama
+from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.prompts import PromptTemplate
 
-CHAT_MODEL = "llama3.2"
+model = "qwen2.5:14b"
 
 
 def test_chat():
-    print(f"[1] 채팅 테스트 (model={CHAT_MODEL})")
-    llm = ChatOllama(model=CHAT_MODEL, temperature=0)
-    resp = llm.invoke("LangChain이 뭔지 한 문장으로 설명해줘")
-    print("  응답:", resp.content)
+    chat = ChatOllama(model=model)
+    messages = [
+        SystemMessage(content="문장 끝에 느낌표를 3개 붙여서 한국어로 답해."),
+        HumanMessage(content="한국의 수도는 어디입니까?"),
+    ]
+    resp = chat.invoke(messages)
+    print("응답:", resp.content)
 
 
 if __name__ == "__main__":
